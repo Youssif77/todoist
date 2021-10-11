@@ -1,1 +1,75 @@
-<p>home works!</p>
+<div class="courses-containers">
+  <div class="courses-list">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title> Todos List </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item *ngFor="let todo of todos" (click)="selectTodo(todo)">
+            <h3 matLine>{{ todo.title }}</h3>
+            <p matLine>{{ todo.description }}</p>
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="deleteTodo(todo.id); $event.stopImmediatePropagation()"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="course-details">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <span *ngIf="selectedTodo.id; else noSelection">{{
+            selectedTodo.title
+          }}</span>
+          <ng-template #noSelection>Add Todo Or Select From List</ng-template>
+        </mat-card-title>
+      </mat-card-header>
+      <form #form="ngForm" (submit)="saveTodo(selectedTodo)">
+        <mat-card-content>
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="Title"
+              type="text"
+              name="title"
+              required
+              [(ngModel)]="selectedTodo.title"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="Description"
+              type="text"
+              name="description"
+              [(ngModel)]="selectedTodo.description"
+            />
+          </mat-form-field>
+          <section></section>
+          <mat-checkbox name="favorite" [(ngModel)]="selectedTodo.complete"
+            >Complete</mat-checkbox
+          >
+        </mat-card-content>
+        <mat-card-actions>
+          <button
+            [disabled]="form.invalid"
+            type="submit"
+            mat-button
+            color="primary"
+          >
+            Submit
+          </button>
+          <button type="button" mat-button (click)="cancel()">Cancel</button>
+        </mat-card-actions>
+      </form>
+    </mat-card>
+  </div>
+</div>
